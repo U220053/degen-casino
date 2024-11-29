@@ -7,41 +7,52 @@
 // import image1 from "../assets/image 26.png";
 // import image2 from "../assets/image 27.png";
 // import image3 from "../assets/image 28.png";
+// import image4 from "../assets/image 29.png";
+// import image5 from "../assets/image 30.png";
+// import image6 from "../assets/image 31.png";
+// import image7 from "../assets/image 32.png";
+// import image8 from "../assets/image 33.png";
 
 // const SlotMachine = () => {
 //   // Configurable spin parameters
 //   const SPIN_DURATION = 4000; // Total spin time (milliseconds)
 //   const STOP_DELAY = 500; // Delay between each reel stopping
-//   const TRANSITION_DURATION = 1000; // CSS transition duration
+//   const TRANSITION_DURATION = 500; // CSS transition duration
 //   const ITEMS_TO_SCROLL = 15; // Number of items to scroll through
 
 //   const items = [image1, image2, image3];
 
+//   // Predefined sequence of items that remains consistent
+//   const initialSequence = items.concat(
+//     Array.from(
+//       { length: ITEMS_TO_SCROLL - items.length },
+//       () => items[Math.floor(Math.random() * items.length)]
+//     )
+//   );
+
 //   const [doors, setDoors] = useState([
-//     { currentIndex: 0, items: items, spinning: false, stopped: false },
-//     { currentIndex: 0, items: items, spinning: false, stopped: false },
-//     { currentIndex: 0, items: items, spinning: false, stopped: false },
+//     {
+//       currentIndex: 0,
+//       items: initialSequence,
+//       spinning: false,
+//       stopped: false,
+//     },
+//     {
+//       currentIndex: 0,
+//       items: initialSequence,
+//       spinning: false,
+//       stopped: false,
+//     },
+//     {
+//       currentIndex: 0,
+//       items: initialSequence,
+//       spinning: false,
+//       stopped: false,
+//     },
 //   ]);
 
 //   const [spinning, setSpinning] = useState(false);
 //   const [winner, setWinner] = useState(false);
-
-//   const spinDoor = (door, index) => {
-//     // Generate more items to create a longer scrolling effect
-//     const newItems = Array.from(
-//       { length: ITEMS_TO_SCROLL },
-//       () => items[Math.floor(Math.random() * items.length)]
-//     );
-
-//     return {
-//       ...door,
-//       items: newItems,
-//       // items: items,
-//       spinning: index === 0, // Only first reel starts spinning initially
-//       stopped: false,
-//       currentIndex: 0,
-//     };
-//   };
 
 //   const spin = () => {
 //     if (spinning) return;
@@ -49,8 +60,15 @@
 //     setSpinning(true);
 //     setWinner(false);
 
-//     // Reset all doors
-//     setDoors((prevDoors) => prevDoors.map(spinDoor));
+//     // Reset doors to initial state
+//     setDoors((prevDoors) =>
+//       prevDoors.map((door) => ({
+//         ...door,
+//         spinning: false,
+//         stopped: false,
+//         currentIndex: 0,
+//       }))
+//     );
 
 //     // Sequentially stop reels
 //     doors.forEach((_, index) => {
@@ -63,14 +81,12 @@
 //                   spinning: false,
 //                   stopped: true,
 //                   currentIndex: Math.floor(ITEMS_TO_SCROLL / 2),
-//                   // currentIndex: door.items.length - ITEMS_TO_SCROLL, // Ensure natural stop position
 //                 }
 //               : door
 //           )
 //         );
 
 //         // Check for winner after last reel stops
-//         console.log("index", index);
 //         if (index === doors.length - 1) {
 //           const finalItems = doors.map(
 //             (door) => door.items[Math.floor(ITEMS_TO_SCROLL / 2)]
@@ -83,7 +99,7 @@
 //       }, SPIN_DURATION + index * STOP_DELAY);
 //     });
 //   };
-//   console.log("doors", doors);
+
 //   return (
 //     <div className="flex flex-col items-center">
 //       {winner && (
@@ -109,33 +125,23 @@
 //                 className={`boxes flex flex-col transition-transform ease-in-out`}
 //                 style={{
 //                   transitionDuration: `${TRANSITION_DURATION}ms`,
-//                   transform:
-//                     door.spinning || !door.stopped
-//                       ? `translateY(-${door.currentIndex * 60}px)`
-//                       : ` translateY(-${
-//                           Math.floor(ITEMS_TO_SCROLL / 2) * 60
-//                         }px)`,
-//                   // transform:
-//                   //   door.spinning || !door.stopped
-//                   //     ? `translateY(-${door.currentIndex * 60}px)`
-//                   //     : `translateY(-${
-//                   //         Math.floor(ITEMS_TO_SCROLL / 2) * 60
-//                   //       }px)`,
+//                   transform: `translateY(-${
+//                     door.stopped
+//                       ? Math.floor(ITEMS_TO_SCROLL / 2) * 60
+//                       : door.currentIndex * 60
+//                   }px)`,
 //                 }}
 //               >
 //                 {door.items.map((item, itemIndex) => (
 //                   <div
 //                     key={itemIndex}
-//                     className={`box flex items-center justify-center text-6xl bg-white border-2 border-gray-200 h-[60px]
-
-//                     `}
+//                     className={`box flex items-center justify-center text-6xl bg-white border-2 border-gray-200 h-[60px]`}
 //                   >
-//                     {/* ${
-//                     itemIndex === Math.floor(ITEMS_TO_SCROLL / 2)
-//                       ? "border-blue-500"
-//                       : ""
-//                   } */}
-//                     {item}
+//                     <img
+//                       src={item}
+//                       alt={`slot item ${itemIndex}`}
+//                       className="max-h-full max-w-full"
+//                     />
 //                   </div>
 //                 ))}
 //               </div>
@@ -186,55 +192,55 @@ import { Loader2 } from "lucide-react";
 import degen from "../assets/image 9.svg";
 import img1 from "../../public/Group16.png";
 import "./Slot.css";
-import image1 from "../assets/image 26.png";
-import image2 from "../assets/image 27.png";
-import image3 from "../assets/image 28.png";
-import image4 from "../assets/image 29.png";
-import image5 from "../assets/image 30.png";
-import image6 from "../assets/image 31.png";
-import image7 from "../assets/image 32.png";
-import image8 from "../assets/image 33.png";
 
 const SlotMachine = () => {
   // Configurable spin parameters
   const SPIN_DURATION = 4000; // Total spin time (milliseconds)
   const STOP_DELAY = 500; // Delay between each reel stopping
-  const TRANSITION_DURATION = 500; // CSS transition duration
+  const TRANSITION_DURATION = 1000; // CSS transition duration
   const ITEMS_TO_SCROLL = 15; // Number of items to scroll through
 
-  const items = [image1, image2, image3];
-
-  // Predefined sequence of items that remains consistent
-  const initialSequence = items.concat(
-    Array.from(
-      { length: ITEMS_TO_SCROLL - items.length },
-      () => items[Math.floor(Math.random() * items.length)]
-    )
-  );
+  const items = [
+    "🍭",
+    "❌",
+    "⛄️",
+    "🦄",
+    "🍌",
+    "💩",
+    "👻",
+    "😻",
+    "💵",
+    "🤡",
+    "🦖",
+    "🍎",
+    "😂",
+    "🖕",
+  ];
 
   const [doors, setDoors] = useState([
-    {
-      currentIndex: 0,
-      items: initialSequence,
-      spinning: false,
-      stopped: false,
-    },
-    {
-      currentIndex: 0,
-      items: initialSequence,
-      spinning: false,
-      stopped: false,
-    },
-    {
-      currentIndex: 0,
-      items: initialSequence,
-      spinning: false,
-      stopped: false,
-    },
+    { currentIndex: 0, items: items, spinning: false, stopped: false },
+    { currentIndex: 0, items: items, spinning: false, stopped: false },
+    { currentIndex: 0, items: items, spinning: false, stopped: false },
   ]);
 
   const [spinning, setSpinning] = useState(false);
   const [winner, setWinner] = useState(false);
+
+  const spinDoor = (door, index) => {
+    // Generate more items to create a longer scrolling effect
+    const newItems = Array.from(
+      { length: ITEMS_TO_SCROLL },
+      () => items[Math.floor(Math.random() * items.length)]
+    );
+
+    return {
+      ...door,
+      items: newItems,
+      spinning: index === 0, // Only first reel starts spinning initially
+      stopped: false,
+      currentIndex: 0,
+    };
+  };
 
   const spin = () => {
     if (spinning) return;
@@ -242,15 +248,8 @@ const SlotMachine = () => {
     setSpinning(true);
     setWinner(false);
 
-    // Reset doors to initial state
-    setDoors((prevDoors) =>
-      prevDoors.map((door) => ({
-        ...door,
-        spinning: false,
-        stopped: false,
-        currentIndex: 0,
-      }))
-    );
+    // Reset all doors
+    setDoors((prevDoors) => prevDoors.map(spinDoor));
 
     // Sequentially stop reels
     doors.forEach((_, index) => {
@@ -281,7 +280,7 @@ const SlotMachine = () => {
       }, SPIN_DURATION + index * STOP_DELAY);
     });
   };
-
+  console.log("doors", doors);
   return (
     <div className="flex flex-col items-center">
       {winner && (
@@ -307,23 +306,26 @@ const SlotMachine = () => {
                 className={`boxes flex flex-col transition-transform ease-in-out`}
                 style={{
                   transitionDuration: `${TRANSITION_DURATION}ms`,
-                  transform: `translateY(-${
-                    door.stopped
-                      ? Math.floor(ITEMS_TO_SCROLL / 2) * 60
-                      : door.currentIndex * 60
-                  }px)`,
+
+                  transform:
+                    door.spinning || !door.stopped
+                      ? `translateY(-${door.currentIndex * 60}px)`
+                      : `translateY(-${
+                          Math.floor(ITEMS_TO_SCROLL / 2) * 60
+                        }px)`,
                 }}
               >
                 {door.items.map((item, itemIndex) => (
                   <div
                     key={itemIndex}
-                    className={`box flex items-center justify-center text-6xl bg-white border-2 border-gray-200 h-[60px]`}
+                    className={`box flex items-center justify-center text-6xl bg-white border-2 border-gray-200 h-[60px]
+                    ${
+                      itemIndex === Math.floor(ITEMS_TO_SCROLL / 2)
+                        ? "border-blue-500"
+                        : ""
+                    }`}
                   >
-                    <img
-                      src={item}
-                      alt={`slot item ${itemIndex}`}
-                      className="max-h-full max-w-full"
-                    />
+                    {item}
                   </div>
                 ))}
               </div>
