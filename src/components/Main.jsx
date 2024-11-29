@@ -7,7 +7,7 @@ import ConnectButton from "./ConnectBtn";
 const Main = () => {
   return (
     <div className="container flex flex-col ">
-      <div className="container flex  justify-end mt-4">
+      <div className="container flex  justify-end mt-4 z-10">
         <ConnectButton />
       </div>
       <div className="container flex flex-col gap-y-20 items-center -mt-16">
