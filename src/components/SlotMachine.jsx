@@ -1,34 +1,60 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { Loader2 } from "lucide-react";
 import degen from "../assets/image 9.svg";
 import img1 from "../../public/Group16.png";
 import "./Slot.css";
+import globe from "../assets/image 26.png";
+import bomb from "../assets/image 27.png";
+import book from "../assets/image 28.png";
+import broom from "../assets/image 29.png";
+import tonic from "../assets/image 30.png";
+import gem from "../assets/image 31.png";
+import key from "../assets/image 32.png";
+import champion from "../assets/image 33.png";
+import coin from "../assets/image 34.png";
+
+import { useAccount } from "wagmi";
 
 const SlotMachine = () => {
-  // Configurable spin parameters
-  const SPIN_DURATION = 4000; // Total spin time (milliseconds)
-  const STOP_DELAY = 500; // Delay between each reel stopping
-  const TRANSITION_DURATION = 500; // CSS transition duration
-  const ITEMS_TO_SCROLL = 15; // Number of items to scroll through
+  // Even shorter spin parameters
+  const { isConnected } = useAccount();
+  const SPIN_DURATION = 1; // Total spin time (milliseconds)
+  const STOP_DELAY = 150; // Delay between each reel stopping
+  const TRANSITION_DURATION = 250; // CSS transition duration
+  const ITEMS_TO_SCROLL = 50; // Number of items to scroll through
 
   const items = [
-    "🍭",
-    "❌",
-    "⛄️",
-    "🦄",
-    "🍌",
-    "💩",
-    "👻",
-    "😻",
-    "💵",
-    "🤡",
-    "🦖",
-    "🍎",
-    "😂",
-    "🖕",
+    <img src={globe} alt="globe" className="w-full h-full object-contain" />,
+    <img src={bomb} alt="bomb" className="w-full h-full object-contain" />,
+    <img src={book} alt="book" className="w-full h-full object-contain" />,
+    <img src={broom} alt="broom" className="w-full h-full object-contain" />,
+    <img src={tonic} alt="tonic" className="w-full h-full object-contain" />,
+    <img src={gem} alt="gem" className="w-full h-full object-contain" />,
+    <img src={key} alt="key" className="w-full h-full object-contain" />,
+    <img
+      src={champion}
+      alt="champion"
+      className="w-full h-full object-contain"
+    />,
+    <img src={coin} alt="coin" className="w-full h-full object-contain" />,
   ];
 
+  // const items = [
+  //   "🍭",
+  //   "❌",
+  //   "⛄️",
+  //   "🦄",
+  //   "🍌",
+  //   "💩",
+  //   "👻",
+  //   "😻",
+  //   "💵",
+  //   "🤡",
+  //   "🦖",
+  //   "🍎",
+  //   "😂",
+  //   "🖕",
+  // ];
   const [doors, setDoors] = useState([
     { currentIndex: 0, items: items, spinning: false, stopped: false },
     { currentIndex: 0, items: items, spinning: false, stopped: false },
@@ -40,7 +66,7 @@ const SlotMachine = () => {
   const [transitionEnabled, setTransitionEnabled] = useState(true);
 
   const spinDoor = (door, index) => {
-    // Generate more items to create a longer scrolling effect
+    // Generate fewer items for quicker spin
     const newItems = Array.from(
       { length: ITEMS_TO_SCROLL },
       () => items[Math.floor(Math.random() * items.length)]
@@ -49,7 +75,7 @@ const SlotMachine = () => {
     return {
       ...door,
       items: newItems,
-      spinning: index === 0, // Only first reel starts spinning initially
+      spinning: index === 0,
       stopped: false,
       currentIndex: 0,
     };
@@ -65,11 +91,11 @@ const SlotMachine = () => {
     setTransitionEnabled(false);
     setDoors((prevDoors) => prevDoors.map(spinDoor));
 
-    // Re-enable transition after resetting doors
+    // Re-enable transition after a brief delay
     setTimeout(() => {
       setTransitionEnabled(true);
 
-      // Sequentially stop reels
+      // Sequentially stop reels with reduced timing
       doors.forEach((_, index) => {
         setTimeout(() => {
           setDoors((prevDoors) =>
@@ -97,10 +123,9 @@ const SlotMachine = () => {
           }
         }, SPIN_DURATION + index * STOP_DELAY);
       });
-    }, 50); // Small delay to ensure the transition is re-enabled
+    }, 50);
   };
 
-  console.log("doors", doors);
   return (
     <div className="flex flex-col items-center">
       {winner && (
@@ -173,13 +198,13 @@ const SlotMachine = () => {
 
           <Button
             onClick={spin}
-            disabled={spinning}
+            disabled={spinning || !isConnected}
             className="text-lg text-white w-[500px] h-[65px] bg-gradient-to-r from-[#D9D9D9] to-[#8B5CF6] shadow-[0_8px_#264BAC,0_60px_25px_rgba(66,112,234,0.19)] transform"
             style={{
               clipPath: "polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)",
             }}
           >
-            {spinning ? <Loader2 className="w-6 h-6 animate-spin" /> : "SPIN"}
+            SPIN
           </Button>
         </div>
         <div className="w-1/3 text-center flex items-center justify-center -mb-8">
