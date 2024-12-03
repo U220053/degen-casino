@@ -12,8 +12,9 @@ import gem from "../assets/image 31.png";
 import key from "../assets/image 32.png";
 import champion from "../assets/image 33.png";
 import coin from "../assets/image 34.png";
-
 import { useAccount } from "wagmi";
+import { Dialog } from "primereact/dialog";
+import "./Modal.css";
 
 const SlotMachine = () => {
   // Even shorter spin parameters
@@ -64,6 +65,7 @@ const SlotMachine = () => {
   const [spinning, setSpinning] = useState(false);
   const [winner, setWinner] = useState(false);
   const [transitionEnabled, setTransitionEnabled] = useState(true);
+  const [dialogVisible, setDialogVisible] = useState(false);
 
   const spinDoor = (door, index) => {
     // Generate fewer items for quicker spin
@@ -125,7 +127,13 @@ const SlotMachine = () => {
       });
     }, 50);
   };
+  const openDialog = () => {
+    setDialogVisible(true);
+  };
 
+  const hideDialog = () => {
+    setDialogVisible(false);
+  };
   return (
     <div className="flex flex-col items-center">
       {winner && (
@@ -207,10 +215,25 @@ const SlotMachine = () => {
             SPIN
           </Button>
         </div>
-        <div className="w-1/3 text-center flex items-center justify-center -mb-8">
+        <div
+          className="w-1/3 text-center flex items-center justify-center -mb-8"
+          onClick={openDialog}
+        >
           <img src={img1} alt="wallet" className="" />
         </div>
       </div>
+      <Dialog
+        visible={dialogVisible}
+        onHide={hideDialog}
+        closable={false}
+        showHeader={false}
+      >
+        {/* <div className="h-[544.16px] bg-gradient-to-b from-[#D9D9D9] to-[#8B5CF6] flex items-center justify-center"> */}
+        <div className="h-[513px] w-[600px] bg-[#1C0241] border-[10px] rounded-[32px] border-purple-700">
+          <img src={img1} alt="wallet" className="" onClick={hideDialog} />
+        </div>
+        {/* </div> */}
+      </Dialog>
     </div>
   );
 };

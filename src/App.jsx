@@ -44,7 +44,7 @@ function App() {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <div className=" min-h-screen flex items-center justify-center  text-white bg-[#2C0653] bg-[url(./DegenCasinoBg.gif)] bg-cover bg-no-repeat bg-center">
+          <div className=" min-h-screen flex items-center justify-center  text-white bg-[#2C0653] bg-[url(/DegenCasinoBg.gif)] bg-cover bg-no-repeat bg-center">
             {/* <SlotMachine /> */}
             <Main />
           </div>
