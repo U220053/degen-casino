@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SlotMachine from "./components/SlotMachine";
 import Main from "./components/Main";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
-// import { mainnet, polygon, optimism, arbitrum, base } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import FrameSDK from "@farcaster/frame-sdk";
+import farcasterFrame from "@farcaster/frame-wagmi-connector";
+import { connect } from "wagmi/actions";
+
+function FarcasterFrameProvider({ children }) {
+  useEffect(() => {
+    const init = async () => {
+      const context = await FrameSDK.context;
+
+      // Auto-connect if running in a Farcaster frame
+      if (context?.client?.clientFid) {
+        connect(config, { connector: farcasterFrame() });
+      }
+
+      // Notify Farcaster that the app is ready
+      setTimeout(() => {
+        FrameSDK.actions.ready();
+      }, 500);
+    };
+
+    init();
+  }, []);
+
+  return <>{children}</>;
+}
 
 function App() {
   const degen = {
@@ -13,7 +37,6 @@ function App() {
     name: "Degen L3",
     network: "DEGEN",
     iconUrl: "../img/degen01.svg",
-    //iconBackground: '#fff',
     nativeCurrency: {
       decimals: 18,
       name: "degen",
@@ -31,11 +54,12 @@ function App() {
       default: { name: "SnowTrace", url: "https://explorer.degen.tips/" },
     },
   };
+
   const config = getDefaultConfig({
     appName: "My RainbowKit App",
     projectId: "YOUR_PROJECT_ID",
     chains: [degen],
-    ssr: true, // If your dApp uses server side rendering (SSR)
+    ssr: true,
   });
 
   const queryClient = new QueryClient();
@@ -44,10 +68,11 @@ function App() {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <div className=" min-h-screen flex items-center justify-center  text-white bg-[#2C0653] bg-[url(/DegenCasinoBg.gif)] bg-cover bg-no-repeat bg-center">
-            {/* <SlotMachine /> */}
-            <Main />
-          </div>
+          <FarcasterFrameProvider>
+            <div className="min-h-screen flex items-center justify-center text-white bg-[#2C0653] bg-[url(/DegenCasinoBg.gif)] bg-cover bg-no-repeat bg-center">
+              <Main />
+            </div>
+          </FarcasterFrameProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

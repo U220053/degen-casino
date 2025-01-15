@@ -12,6 +12,7 @@ import gem from "../assets/image 31.png";
 import key from "../assets/image 32.png";
 import champion from "../assets/image 33.png";
 import coin from "../assets/image 34.png";
+import degenimg from "../assets/Frame 2.svg";
 import { useAccount } from "wagmi";
 import { Dialog } from "primereact/dialog";
 import "./Modal.css";
@@ -38,24 +39,9 @@ const SlotMachine = () => {
       className="w-full h-full object-contain"
     />,
     <img src={coin} alt="coin" className="w-full h-full object-contain" />,
+    <img src={degenimg} alt="degen" className="w-full h-full object-contain" />,
   ];
 
-  // const items = [
-  //   "🍭",
-  //   "❌",
-  //   "⛄️",
-  //   "🦄",
-  //   "🍌",
-  //   "💩",
-  //   "👻",
-  //   "😻",
-  //   "💵",
-  //   "🤡",
-  //   "🦖",
-  //   "🍎",
-  //   "😂",
-  //   "🖕",
-  // ];
   const [doors, setDoors] = useState([
     { currentIndex: 0, items: items, spinning: false, stopped: false },
     { currentIndex: 0, items: items, spinning: false, stopped: false },
@@ -136,24 +122,22 @@ const SlotMachine = () => {
   };
   return (
     <div className="flex flex-col items-center">
-      {winner && (
-        <div className="font-redhat text-[45.53px] font-black leading-[60.24px] text-left animate-bounce flex flex-row">
-          <p className="mr-2 bg-gradient-to-b from-white to-[#8B5CF6] bg-clip-text text-transparent">
-            JACKPOT
-          </p>
-          <img src={degen} alt="wallet" className="w-10 h-10 mr-2" />
-          <p className="bg-gradient-to-b from-white to-[#8B5CF6] bg-clip-text text-transparent">
-            100,000 DEGENS
-          </p>
-        </div>
-      )}
+      <div className="font-redhat text-[45.53px] font-black leading-[60.24px] text-left animate-bounce flex flex-row">
+        <p className="mr-2 bg-gradient-to-b from-white to-[#8B5CF6] bg-clip-text text-transparent">
+          JACKPOT
+        </p>
+        <img src={degen} alt="wallet" className="w-10 h-10 mr-2" />
+        <p className="bg-gradient-to-b from-white to-[#8B5CF6] bg-clip-text text-transparent">
+          100,000 DEGENS
+        </p>
+      </div>
 
-      <div className="flex flex-col items-center px-8 bg-[url('/Group18.png')] bg-contain bg-no-repeat bg-center w-[50rem] h-2/3">
+      <div className="flex flex-col items-center px-8  bg-[url('/Group18.png')] bg-contain bg-no-repeat bg-center w-[50rem] h-2/3 -mt-10">
         <div className="flex gap-4 p-16 rounded-lg shadow-lg">
           {doors.map((door, index) => (
             <div
               key={index}
-              className="door w-40 h-60 overflow-hidden relative"
+              className="door w-40 h-[14.5rem] overflow-hidden relative"
             >
               <div
                 className={`boxes flex flex-col transition-transform ease-in-out`}
@@ -172,7 +156,7 @@ const SlotMachine = () => {
                 {door.items.map((item, itemIndex) => (
                   <div
                     key={itemIndex}
-                    className={`box flex items-center justify-center text-6xl bg-white border-2 border-gray-200 h-[60px]
+                    className={`box flex items-center justify-center text-6xl bg-white border-2 border-white h-[120px]
                     ${
                       itemIndex === Math.floor(ITEMS_TO_SCROLL / 2)
                         ? "border-blue-500"
@@ -188,7 +172,7 @@ const SlotMachine = () => {
         </div>
       </div>
 
-      <div className="w-full flex flex-row gap-4 h-1/3 items-center justify-between mb-2 mt-8">
+      <div className="w-full flex flex-row gap-4 h-1/3 items-center justify-between mb-2 ">
         <div className="w-1/3 flex items-center -mb-8">
           <div className="flex items-center">
             <div className="w-[13.5rem] h-[4rem] rounded-r-[0.875rem] rounded-l-[2rem] bg-purple-700 text-right flex items-center justify-center text-white relative">
@@ -228,11 +212,9 @@ const SlotMachine = () => {
         closable={false}
         showHeader={false}
       >
-        {/* <div className="h-[544.16px] bg-gradient-to-b from-[#D9D9D9] to-[#8B5CF6] flex items-center justify-center"> */}
-        <div className="h-[513px] w-[600px] bg-[#1C0241] border-[10px] rounded-[32px] border-purple-700">
-          <img src={img1} alt="wallet" className="" onClick={hideDialog} />
+        <div className="h-[513px] w-[600px] bg-[#1C0241] border-[10px] rounded-[32px] border-purple-700 flex flex-col justify-end items-center">
+          <img src={img1} alt="wallet" className="mb-4" onClick={hideDialog} />
         </div>
-        {/* </div> */}
       </Dialog>
     </div>
   );
